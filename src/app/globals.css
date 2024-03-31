@@ -28,10 +28,22 @@ body {
 
 @keyframes anim {
   0% {
+    transform: rotate(0deg) scale(0.3);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.8);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.3);
+  }
+}
+
+@keyframes anim-sm {
+  0% {
     transform: rotate(0deg) scale(0.5);
   }
   50% {
-    transform: rotate(180deg) scale(1);
+    transform: rotate(180deg) scale(0.8);
   }
   100% {
     transform: rotate(360deg) scale(0.5);
@@ -40,4 +52,8 @@ body {
 
 .the-pill {
  animation: anim 3s linear infinite;
+}
+
+.the-pill-sm {
+  animation: anim-sm 3s linear infinite;
 }
