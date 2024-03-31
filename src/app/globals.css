@@ -25,3 +25,19 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@keyframes anim {
+  0% {
+    transform: rotate(0deg) scale(0.5);
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.5);
+  }
+}
+
+.the-pill {
+ animation: anim 3s linear infinite;
+}
