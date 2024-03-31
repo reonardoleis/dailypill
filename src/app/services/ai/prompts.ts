@@ -1,5 +1,5 @@
 export const GENERATE_PILL_PROMPT = `
-    Generate a short daily pill. Do not state that it is a daily pill or daily anything.
+    Generate a short to medim daily pill. Do not state that it is a daily pill or daily anything.
     It does not need to be motivational, but it should be something that makes people think.
     It can be a dark humor, a joke, a fact, a quote, a tip, a trick, a life hack, a piece of advice, a warning, a reminder, a question, a challenge, a riddle, a puzzle, a mystery.
     Use emojis where possible, and make it short.

@@ -21,7 +21,7 @@ const Display = (props: any) => {
         </div>
       </div>
       <div className="flex items-center text-justify">
-        <p className="text-xl">{`"${props.value}"`}</p>
+        <p className="text-xl">{`"${props.value.replace(/\"/g, "")}"`}</p>
       </div>
     </div>
   );

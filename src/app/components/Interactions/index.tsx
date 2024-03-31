@@ -2,6 +2,8 @@ import { useState } from "react";
 import { CiShare2 } from "react-icons/ci";
 import { FaCheck, FaRegCopy } from "react-icons/fa";
 import { IoCheckmarkOutline } from "react-icons/io5";
+import redpill from "@/app/redpill.png";
+import bluepill from "@/app/bluepill.png";
 
 const Interactions = (props: any) => {
   const [up, setUp] = useState(props.up);
@@ -48,24 +50,32 @@ const Interactions = (props: any) => {
       <div className="flex flex-row mt-4 gap-1">
         <div className="flex flex-row gap-1 w-full">
           <button
-            className="p-2 text-white rounded-md border border-solid border-white border-opacity-10 w-[50px] h-[50px] text-xs hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
+            className="p-2 text-white rounded-full border border-solid border-white border-opacity-10 w-[40px] h-[40px] text-xs hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
             onClick={() => handleVote("up")}
             style={{
               cursor: voted ? "not-allowed" : "pointer",
             }}
             disabled={vote === "up"}
+            title="Totally redpill, I'm in"
           >
-            👍 {up}
+            <div className="flex flex-row items-center justify-center gap-1">
+              <img src={redpill.src} width={6} className="mr-1" />
+              <p>{up}</p>
+            </div>
           </button>
           <button
-            className="p-2 text-white rounded-md border border-solid border-white border-opacity-10 w-[50px] h-[50px] text-xs hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
+            className="p-2 text-white rounded-full border border-solid border-white border-opacity-10 w-[40px] h-[40px] text-xs hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
             onClick={() => handleVote("down")}
             style={{
               cursor: voted ? "not-allowed" : "pointer",
             }}
-            disabled={vote === "down"}
+            disabled={vote === "bluepill"}
+            title="Totally bluepill, I'm out"
           >
-            👎 {down}
+            <div className="flex flex-row items-center justify-center gap-1">
+              <img src={bluepill.src} width={6} className="mr-1" />
+              <p>{down}</p>
+            </div>
           </button>
         </div>
         <div className="flex flex-row gap-1 items-center justify-end">
