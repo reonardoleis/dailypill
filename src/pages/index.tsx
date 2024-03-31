@@ -5,6 +5,7 @@ import Display from "@/app/components/Display";
 import {
   getDailyPill,
   getInteractions,
+  getViews,
   hasVoted,
   setDailyPill,
 } from "@/app/services/database";
@@ -18,16 +19,28 @@ interface HomeProps {
   down: number;
   voted: boolean;
   vote: "up" | "down";
+  views: number;
 }
 
-export default function Home({ value, up, down, voted, vote }: HomeProps) {
+export default function Home({
+  value,
+  up,
+  down,
+  voted,
+  vote,
+  views,
+}: HomeProps) {
   const [until, setUntil] = useState(
     Math.round(getSecondsUntilMidnight() / 60)
   );
 
   useEffect(() => {
+    fetch("/api/views", { method: "POST" });
     const interval = setInterval(() => {
       setUntil((prev) => prev - 1);
+      if (until <= 0) {
+        window.location.reload();
+      }
     }, 1000 * 60);
 
     return () => clearInterval(interval);
@@ -38,27 +51,35 @@ export default function Home({ value, up, down, voted, vote }: HomeProps) {
       <Rain />
       <Head>
         <title>The Daily Pill 💊</title>
-        <meta name="description" content={value} />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+        <meta name="description" content={value.replace(/\"/g, "")} />
         <meta property="og:title" content="The Daily Pill 💊" />
-        <meta property="og:description" content={value} />
+        <meta property="og:description" content={value.replace(/\"/g, "")} />
         <link rel="icon" href={favicon.src} />
         <link rel="shortcut icon" href={favicon.src} />
       </Head>
       <main className="flex min-h-screen justify-center items-center p-8 min-w-screen">
-        <div className="flex flex-col items-start justify-center p-6 backdrop-blur-md rounded-xl border border-white border-opacity-20 h-fit w-fit">
-          <Display value={value} />
+        <div className="flex p-4 flex-col justify-center backdrop-blur-md rounded-xl border border-white border-opacity-20 h-fit md:max-w-[45vw]">
+          <Display value={value} views={views} />
           <Interactions up={up} down={down} voted={voted} vote={vote} />
-          <div className="flex flex-row w-full mt-1 mb-[-10px]">
+          <div className="flex flex-row w-full mt-1 mb-[-10px] justify-center">
             <span className="text-[11px] text-gray-500 flex flex-row">
               You will be enlightened with a new{" "}
               <div className="the-pill-sm w-fit">💊</div> in {until} minutes
-              🗿🍷
+              🗿🍷.
             </span>
           </div>
         </div>
-        <div className="absolute right-0 bottom-0 p-1 bg-slate-500 bg-opacity-30 text-[10px]">
+        <div className="fixed right-0 bottom-0 p-0 bg-slate-500 bg-opacity-30 text-[10px] px-2 py-1">
           Carefully crafted by{" "}
-          <a className="font-bold" href="https://github.com/reonardoleis">
+          <a
+            className="font-bold"
+            href="https://github.com/reonardoleis"
+            target="blank"
+          >
             reonardoleis
           </a>{" "}
           with 💜
@@ -88,6 +109,8 @@ export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const ip = req.headers["x-real-ip"] as string;
   const vote = await hasVoted(ip);
 
+  const views = await getViews();
+
   return {
     props: {
       value: dailyPill,
@@ -95,6 +118,7 @@ export async function getServerSideProps({ req }: { req: NextApiRequest }) {
       down: interactions.down,
       voted: vote.voted,
       vote: vote.vote,
+      views: views,
     },
   };
 }

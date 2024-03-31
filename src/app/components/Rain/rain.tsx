@@ -6,15 +6,19 @@ interface Drop {
   x: number;
   y: number;
   s: number;
-  velocity: number;
 }
 
 const Rain = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   let drops: Drop[] = [];
   let ctx = null;
+  let deltaTime = 0;
 
-  const rain = (ctx: any) => {
+  const rain = (ctx) => {
+    const now = Date.now();
+    const deltaTime = (now - (rain as any).then) / 1000;
+    (rain as any).then = now;
+
     const w = ctx.canvas.width;
     const h = ctx.canvas.height;
 
@@ -31,28 +35,40 @@ const Rain = () => {
       "🤯",
       "🍷",
       "🗿",
+      "🔮",
+      "🎭",
+      "💀",
+      "👻",
+      "👽",
+      "💩",
+      "🧻",
+      "🧨",
+      "🚬",
+      "🪦",
     ];
 
-    if (drops.length < 100) {
+    const pastHalf =
+      drops.filter((drop) => drop.y > h / 2).length > 0.2 * drops.length;
+    if (
+      drops.length < Math.round(w * 0.035) ||
+      (pastHalf && drops.length < Math.round(w * 0.04))
+    ) {
       drops.push({
         char: redpillEmojis[Math.floor(Math.random() * redpillEmojis.length)],
         x: Math.random() * w,
         y: 0,
-        s: Math.random() * 1 + 0.2,
-        velocity: Math.random() * 8 + 2,
+        s: Math.random() * 40 + 10,
       });
     }
 
     ctx.fillStyle = "rgba(0, 0, 0, 1.0)";
     ctx.fillRect(0, 0, w, h);
+
     for (let i = 0; i < drops.length; i++) {
-      ctx.fillStyle = "#00FF41";
-
-      ctx.font = `${drops[i].s}em Arial`;
+      ctx.font = `${drops[i].s / 20}em Arial`;
       ctx.fillText(drops[i].char, drops[i].x, drops[i].y);
-      drops[i].y += 0.3 * drops[i].velocity;
-
-      if (drops[i].y > h) {
+      drops[i].y += drops[i].s * deltaTime * 2;
+      if (drops[i].y > h + 20) {
         drops.splice(i, 1);
       }
     }
@@ -73,7 +89,6 @@ const Rain = () => {
     ctx.filter = "blur(1px)";
 
     document.onmousemove = (e) => {
-      // move drops away from the mouse, a little, if they are close, on the opposite vector
       for (let i = 0; i < drops.length; i++) {
         if (
           Math.abs(drops[i].x - e.clientX) < 150 &&
@@ -85,7 +100,7 @@ const Rain = () => {
       }
     };
 
-    rain(ctx);
+    requestAnimationFrame(() => rain(ctx));
   }, []);
 
   return (

@@ -44,3 +44,23 @@ export async function hasVoted(
     vote: up ? "up" : "down",
   };
 }
+
+export async function getViews(): Promise<number> {
+  const views = await kv.get<number>("views");
+  return views ?? 0;
+}
+
+export async function incrementViews(): Promise<void> {
+  const views = await getViews();
+
+  if (views === 0) {
+    await kv.set<number>("views", 1, {
+      ex: getSecondsUntilMidnight(),
+    });
+    return;
+  }
+
+  await kv.set<number>("views", views + 1, {
+    ex: getSecondsUntilMidnight(),
+  });
+}
