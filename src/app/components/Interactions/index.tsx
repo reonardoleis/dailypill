@@ -7,6 +7,7 @@ const Interactions = (props: any) => {
   const [vote, setVote] = useState(props.vote);
 
   const handleVote = async (vote: "up" | "down") => {
+    if (voted) return;
     setVoted(true);
     setVote(vote);
     const add = vote === "up" ? setUp : setDown;
@@ -28,24 +29,22 @@ const Interactions = (props: any) => {
     <div>
       <div className="flex flex-row mt-4 gap-1">
         <button
-          className="p-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 w-[100px]"
+          className="p-3 text-white rounded-lg border border-solid border-gray-900 w-[100px] hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
           onClick={() => handleVote("up")}
           style={{
-            border: voted && vote === "up" ? "2px solid grey" : "none",
             cursor: voted ? "not-allowed" : "pointer",
           }}
-          disabled={voted}
+          disabled={vote === "up"}
         >
           👍 {up}
         </button>
         <button
-          className="p-3 bg-red-900 text-white rounded-lg hover:bg-red-800 w-[100px]"
+          className="p-3 text-white rounded-lg border border-solid border-gray-900 w-[100px] hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
           onClick={() => handleVote("down")}
           style={{
-            border: voted && vote === "down" ? "2px solid grey" : "none",
             cursor: voted ? "not-allowed" : "pointer",
           }}
-          disabled={voted}
+          disabled={vote === "down"}
         >
           👎 {down}
         </button>
