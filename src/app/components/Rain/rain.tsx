@@ -11,10 +11,11 @@ interface Drop {
 const Rain = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   let drops: Drop[] = [];
-  let ctx = null;
+  let ctx: CanvasRenderingContext2D | null = null;
   let deltaTime = 0;
 
-  const rain = (ctx) => {
+  const rain = (ctx: CanvasRenderingContext2D | null) => {
+    if (ctx === null) return;
     const now = Date.now();
     const deltaTime = (now - (rain as any).then) / 1000;
     (rain as any).then = now;
@@ -84,7 +85,7 @@ const Rain = () => {
     c.height = window.innerHeight;
 
     ctx = c.getContext("2d");
-    if (!ctx) return;
+    if (ctx === null) return;
 
     ctx.filter = "blur(1px)";
 
