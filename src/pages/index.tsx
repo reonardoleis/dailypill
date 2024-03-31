@@ -22,14 +22,15 @@ interface HomeProps {
 export default function Home({ value, up, down, voted, vote }: HomeProps) {
   return (
     <>
+      <Rain />
       <Head>
         <title>The Daily Pill 💊</title>
         <meta name="description" content={value} />
         <meta property="og:title" content="The Daily Pill 💊" />
         <meta property="og:description" content={value} />
       </Head>
-      <main className="flex min-h-screen justify-center p-8">
-        <div className="flex flex-col items-start justify-center">
+      <main className="flex min-h-screen justify-center items-center p-8">
+        <div className="flex flex-col items-start justify-center p-6 backdrop-blur-md rounded-xl border border-gray-900 h-fit">
           <Display value={value} />
           <Interactions up={up} down={down} voted={voted} vote={vote} />
         </div>
@@ -39,6 +40,7 @@ export default function Home({ value, up, down, voted, vote }: HomeProps) {
 }
 
 import { NextApiRequest } from "next";
+import Rain from "@/app/components/Rain/rain";
 
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   let dailyPill = await getDailyPill();

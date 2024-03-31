@@ -1,4 +1,3 @@
-import { setInteractions } from "@/app/services/database";
 import { useState } from "react";
 
 const Interactions = (props: any) => {
