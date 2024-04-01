@@ -30,18 +30,23 @@ export default function Home({
   vote,
   views,
 }: HomeProps) {
-  const [until, setUntil] = useState(
-    Math.round(getSecondsUntilMidnight() / 60)
-  );
+  const [until, setUntil] = useState(-1);
 
   useEffect(() => {
-    fetch("/api/views", { method: "POST" });
-    const interval = setInterval(() => {
-      setUntil((prev) => prev - 1);
-      if (until <= 0) {
-        window.location.reload();
-      }
-    }, 1000 * 60);
+    let interval: NodeJS.Timeout;
+    (async () => {
+      fetch("/api/views", { method: "POST" });
+
+      const timeResponse = await fetch("/api/time");
+      const until = parseInt(await timeResponse.text());
+      setUntil(Math.round(until / 60));
+      interval = setInterval(() => {
+        setUntil((prev) => prev - 1);
+        if (until <= 0) {
+          window.location.reload();
+        }
+      }, 1000 * 60);
+    })();
 
     return () => clearInterval(interval);
   }, []);
