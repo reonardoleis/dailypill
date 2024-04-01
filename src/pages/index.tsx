@@ -81,7 +81,7 @@ export default function Home({
             pill={value}
           />
           {until > 0 && (
-            <div className="flex flex-row w-full mt-1 mb-[-10px] justify-center">
+            <div className="flex flex-row w-full mt-1 mb-[-10px] justify-center select-none">
               <span className="text-[11px] text-gray-500 flex flex-row">
                 You will be enlightened with a new{" "}
                 <div className="the-pill-sm w-fit">💊</div> in {until} minutes

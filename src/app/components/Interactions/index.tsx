@@ -53,7 +53,7 @@ const Interactions = (props: any) => {
   return (
     <div className="w-full">
       <div className="flex flex-row mt-4 gap-1">
-        <div className="flex flex-row gap-1 w-full">
+        <div className="flex flex-row gap-1 w-full select-none">
           <button
             className="p-2 text-white rounded-full border border-solid border-white border-opacity-10 w-[40px] h-[40px] text-xs hover:bg-gray-500 hover:bg-opacity-30 transition-all disabled:bg-gray-700 disabled:bg-opacity-30 disabled:cursor-not-allowed"
             onClick={() => handleVote("up")}
