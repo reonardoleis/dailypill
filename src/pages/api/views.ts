@@ -1,8 +1,4 @@
-import {
-  hasVoted,
-  incrementViews,
-  setInteractions,
-} from "@/app/services/database";
+import { incrementViews } from "@/app/services/database";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

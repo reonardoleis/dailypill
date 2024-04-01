@@ -70,13 +70,15 @@ export default function Home({
         <div className="flex p-4 flex-col justify-center backdrop-blur-md rounded-xl border border-white border-opacity-20 h-fit md:max-w-[45vw]">
           <Display value={value} views={views} />
           <Interactions up={up} down={down} voted={voted} vote={vote} />
-          <div className="flex flex-row w-full mt-1 mb-[-10px] justify-center">
-            <span className="text-[11px] text-gray-500 flex flex-row">
-              You will be enlightened with a new{" "}
-              <div className="the-pill-sm w-fit">💊</div> in {until} minutes
-              🗿🍷.
-            </span>
-          </div>
+          {until > 0 && (
+            <div className="flex flex-row w-full mt-1 mb-[-10px] justify-center">
+              <span className="text-[11px] text-gray-500 flex flex-row">
+                You will be enlightened with a new{" "}
+                <div className="the-pill-sm w-fit">💊</div> in {until} minutes
+                🗿🍷
+              </span>
+            </div>
+          )}
         </div>
         <div className="fixed right-0 bottom-0 p-0 bg-slate-500 bg-opacity-30 text-[10px] px-2 py-1">
           Carefully crafted by{" "}
