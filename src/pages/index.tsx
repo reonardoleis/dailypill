@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Display from "@/app/components/Display";
+import Rain from "@/app/components/Rain/rain";
 import {
   getDailyPill,
   getInteractions,
@@ -67,9 +68,18 @@ export default function Home({
         <link rel="shortcut icon" href={favicon.src} />
       </Head>
       <main className="flex min-h-screen justify-center items-center p-8 min-w-screen">
-        <div className="flex p-4 flex-col justify-center backdrop-blur-md rounded-xl border border-white border-opacity-20 h-fit md:max-w-[45vw]">
+        <div
+          id="display"
+          className="flex p-4 flex-col justify-center backdrop-blur-md rounded-xl border border-white border-opacity-20 h-fit md:max-w-[45vw]"
+        >
           <Display value={value} views={views} />
-          <Interactions up={up} down={down} voted={voted} vote={vote} />
+          <Interactions
+            up={up}
+            down={down}
+            voted={voted}
+            vote={vote}
+            pill={value}
+          />
           {until > 0 && (
             <div className="flex flex-row w-full mt-1 mb-[-10px] justify-center">
               <span className="text-[11px] text-gray-500 flex flex-row">
@@ -97,8 +107,6 @@ export default function Home({
 }
 
 import { NextApiRequest } from "next";
-import Rain from "@/app/components/Rain/rain";
-import { getSecondsUntilMidnight } from "@/utils/time";
 
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   let dailyPill = await getDailyPill();

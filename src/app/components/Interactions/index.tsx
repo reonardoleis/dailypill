@@ -4,6 +4,7 @@ import { FaCheck, FaRegCopy } from "react-icons/fa";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import redpill from "@/app/redpill.png";
 import bluepill from "@/app/bluepill.png";
+import { toPng } from "html-to-image";
 
 const Interactions = (props: any) => {
   const [up, setUp] = useState(props.up);
@@ -34,7 +35,11 @@ const Interactions = (props: any) => {
   const handleShare = async () => {
     await navigator.share({
       title: "The Daily Pill 💊",
-      text: "Check out today's pill!",
+      text: `The Daily Pill 💊
+      
+      "${props.pill.replace(/\"/g, "")}"
+      
+      Take it sparingly, preferably with a glass of wine 🍷`,
       url: window.location.href,
     });
   };
