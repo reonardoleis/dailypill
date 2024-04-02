@@ -1,37 +1,67 @@
 export function getTimeInCustomFormat(): string {
-  const months: string[] = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const days: string[] = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const now = new Date();
+  const day = now.getUTCDate();
+  const month = now.getUTCMonth();
+  const year = now.getUTCFullYear();
+  const dayOfWeek = now.getUTCDay();
+  const monthName = getMonthName(month);
+  const ordinalIndicator = getOrdinalIndicator(day);
 
-  const currentDate: Date = new Date();
-  const dayOfWeek: string = days[currentDate.getDay()];
-  const dayOfMonth: number = currentDate.getDate();
-  const month: string = months[currentDate.getMonth()];
-  const year: number = currentDate.getFullYear();
+  return `${getDayOfWeek(
+    dayOfWeek
+  )}, the ${day}${ordinalIndicator} of ${monthName} of ${year}`;
+}
 
-  const ordinalIndicator: string = getOrdinalIndicator(dayOfMonth);
+function getDayOfWeek(day: number): string {
+  switch (day) {
+    case 0:
+      return "Sunday";
+    case 1:
+      return "Monday";
+    case 2:
+      return "Tuesday";
+    case 3:
+      return "Wednesday";
+    case 4:
+      return "Thursday";
+    case 5:
+      return "Friday";
+    case 6:
+      return "Saturday";
+    default:
+      return "";
+  }
+}
 
-  return `${dayOfWeek}, the ${dayOfMonth}${ordinalIndicator} of ${month} of ${year}`;
+function getMonthName(month: number): string {
+  switch (month) {
+    case 0:
+      return "January";
+    case 1:
+      return "February";
+    case 2:
+      return "March";
+    case 3:
+      return "April";
+    case 4:
+      return "May";
+    case 5:
+      return "June";
+    case 6:
+      return "July";
+    case 7:
+      return "August";
+    case 8:
+      return "September";
+    case 9:
+      return "October";
+    case 10:
+      return "November";
+    case 11:
+      return "December";
+    default:
+      return "";
+  }
 }
 
 function getOrdinalIndicator(day: number): string {
@@ -51,8 +81,8 @@ function getOrdinalIndicator(day: number): string {
 export const getSecondsUntilMidnight = (): number => {
   const now = new Date();
   const midnight = new Date(now);
-  midnight.setHours(24, 0, 0, 0);
-  const diffMilliseconds = midnight.getTime() - now.getTime();
-  const ex = Math.floor(diffMilliseconds / 1000);
-  return ex;
+  midnight.setUTCHours(24, 0, 0, 0);
+
+  const millisecondsUntilMidnight = midnight.getTime() - now.getTime();
+  return Math.floor(millisecondsUntilMidnight / 1000);
 };

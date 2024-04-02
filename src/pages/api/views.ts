@@ -1,4 +1,4 @@
-import { incrementViews } from "@/app/services/database";
+import { incrementViews } from "@/services/database";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

@@ -9,8 +9,8 @@ import {
   getViews,
   hasVoted,
   setDailyPill,
-} from "@/app/services/database";
-import { generateDailyPill } from "@/app/services/ai";
+} from "@/services/database";
+import { generateDailyPill } from "@/services/ai";
 import Interactions from "@/app/components/Interactions";
 import favicon from "@/app/favicon.ico";
 
@@ -41,6 +41,7 @@ export default function Home({
       const timeResponse = await fetch("/api/time");
       const until = parseInt(await timeResponse.text());
       setUntil(Math.round(until / 60));
+      console.log("until", until);
       interval = setInterval(() => {
         setUntil((prev) => prev - 1);
         if (until <= 0) {
@@ -121,7 +122,7 @@ export async function getServerSideProps({ req }: { req: NextApiRequest }) {
 
   const interactions = await getInteractions();
 
-  const ip = req.headers["x-real-ip"] as string;
+  const ip = (req.headers["x-real-ip"] as string) || "localhost";
   const vote = await hasVoted(ip);
 
   const views = await getViews();

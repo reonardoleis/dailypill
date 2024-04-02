@@ -1,3 +1,4 @@
+import { hash } from "@/utils/hash";
 import { getSecondsUntilMidnight } from "@/utils/time";
 import { kv } from "@vercel/kv";
 
@@ -28,7 +29,7 @@ export async function setInteractions(
   await kv.set<number>(key, (current ?? 0) + 1, {
     ex: getSecondsUntilMidnight(),
   });
-  await kv.set<string>(`${ip}-${key}`, "voted", {
+  await kv.set<string>(`${hash(ip)}-${key}`, "voted", {
     ex: getSecondsUntilMidnight(),
   });
 }
@@ -36,9 +37,8 @@ export async function setInteractions(
 export async function hasVoted(
   ip: string
 ): Promise<{ voted: boolean; vote: "up" | "down" }> {
-  const up = await kv.get<string>(`${ip}-up`);
-  const down = await kv.get<string>(`${ip}-down`);
-
+  const up = await kv.get<string>(`${hash(ip)}-up`);
+  const down = await kv.get<string>(`${hash(ip)}-down`);
   return {
     voted: up === "voted" || down === "voted",
     vote: up ? "up" : "down",

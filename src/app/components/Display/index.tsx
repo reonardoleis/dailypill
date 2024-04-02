@@ -3,13 +3,12 @@ import { useState } from "react";
 import { IoMdEye } from "react-icons/io";
 
 const Display = (props: any) => {
-  const [until, setUntil] = useState(getSecondsUntilMidnight());
   return (
     <>
       <div className="flex flex-col select-none">
         <div className="flex flex-row justify-between items-center">
           <span className="text-sm text-gray-400 font-light">
-            {getTimeInCustomFormat()}
+            {getTimeInCustomFormat()} (UTC)
           </span>
           <div className="flex flex-row text-sm text-gray-400 font-light items-center justify-center gap-1">
             <IoMdEye /> {props.views}

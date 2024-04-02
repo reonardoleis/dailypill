@@ -1,4 +1,4 @@
-import { hasVoted, setInteractions } from "@/app/services/database";
+import { hasVoted, setInteractions } from "@/services/database";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
       return res.status(400).json({ error: "Invalid vote" });
     }
 
-    const ip = req.headers["x-real-ip"] as string;
+    const ip = (req.headers["x-real-ip"] as string) || "localhost";
     if ((await hasVoted(ip)).voted) {
       return res.status(403).json({ error: "You have already voted" });
     }
